@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["EDOC_BlobApiService/EDOC_BlobApiService.csproj", "EDOC_BlobApiService/"]
-RUN dotnet restore "EDOC_BlobApiService/EDOC_BlobApiService.csproj"
+COPY ["SMTPremium.csproj", ""]
+RUN dotnet restore "SMTPremium.csproj"
 COPY . .
-WORKDIR "/src/EDOC_BlobApiService"
-RUN dotnet build "EDOC_BlobApiService.csproj" -c Release -o /app/build
+WORKDIR "/src/SmartQuote"
+RUN dotnet build "SMTPremium.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "EDOC_BlobApiService.csproj" -c Release -o /app/publish
+RUN dotnet publish "SMTPremium.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EDOC_BlobApiService.dll"]
+ENTRYPOINT ["dotnet", "SMTPremium.dll"]
